@@ -14,7 +14,7 @@ export async function suggererAvecIA(titre) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "mistralai/mistral-7b-instruct:free",
+        model: "google/gemma-4-31b-it:freeze-2024-06-01",
         messages: [{
           role: "user",
           content: `Tu es un assistant pour Sunu-Idées.

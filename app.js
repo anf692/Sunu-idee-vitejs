@@ -1,8 +1,8 @@
 import { chargerIdees, ajouterIdee, 
-         modifierIdee, supprimerIdee } from "./api/supabase.js";
-import { suggererAvecIA } from "./api/openrouter.js";
-import { validerFormulaire } from "./utils/validation.js";
-import { sanitize } from "./utils/sanitize.js";
+         modifierIdee, supprimerIdee } from "./src/services/supabase.js";
+import { suggererAvecIA } from "./src/services/openrouter.js";
+import { validerFormulaire } from "./src/utils/validation.js";
+import { sanitize } from "./src/utils/sanitize.js";
 
 // ==============================
 // ÉLÉMENTS DOM
@@ -100,34 +100,31 @@ document.getElementById("btnSuggerer")
 
 // Fonctions globales pour les boutons des cartes
 window.editerIdee = async function(id) {
-  const { data, error } = await supabaseClient
-    .from("idees")
-    .select("*")
-    .eq("id", id)
-    .single(); // récupère une seule idée avec l'id correspondant
-
-  if (error) { console.error("Erreur édition :", error); return; }
-
-  document.getElementById("Titre").value = data.titre;
-  document.getElementById("Categorie").value = data.categorie;
-  document.getElementById("Description").value = data.description;
-  idEnEdition = id;
-}
-window.supprimerIdee = async function(id) { 
-    const confirmation = confirm("Es-tu sûr de vouloir supprimer cette idée ?");
-  if (!confirmation) return;
-
-  const { error } = await supabaseClient
-    .from("idees")
-    .delete()
-    .eq("id", id);
-
-  if (error) {
-    console.error("Erreur suppression :", error);
-    return;
+  try {
+    const idees = await chargerIdees(); 
+    const idee = idees.find(i => i.id === id);
+    
+    document.getElementById("Titre").value = idee.titre;
+    document.getElementById("Categorie").value = idee.categorie;
+    document.getElementById("Description").value = idee.description;
+    idEnEdition = id;
+  } catch(e) {
+    console.error("Erreur édition :", e);
   }
+}
 
-  await chargerIdees(); // recharge le mur
+
+window.supprimerIdee = async function(id) {
+  const confirmation = confirm("Es-tu sûr ?");
+  if (!confirmation) return;
+  
+  try {
+    await supprimerIdee(id);
+    const idees = await chargerIdees();
+    afficherTout(idees);
+  } catch(e) {
+    console.error("Erreur suppression :", e);
+  }
 }
 
 // ==============================
