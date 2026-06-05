@@ -1,8 +1,8 @@
 import { chargerIdees, ajouterIdee, 
-         modifierIdee, supprimerIdee } from "./src/services/supabase.js";
-import { suggererAvecIA } from "./src/services/openrouter.js";
-import { validerFormulaire } from "./src/utils/validation.js";
-import { sanitize } from "./src/utils/sanitize.js";
+         modifierIdee, supprimerIdee } from "./services/supabase.js";
+import { suggererAvecIA } from "./services/openrouter.js";
+import { validerFormulaire } from "./utils/validation.js";
+import { sanitize } from "./utils/sanitize.js";
 
 // ==============================
 // ÉLÉMENTS DOM
