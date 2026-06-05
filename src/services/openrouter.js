@@ -1,4 +1,3 @@
-// api/openrouter.js
 const CATEGORIES_VALIDES = [
   "Pédagogie", "Événement", 
   "Vie de campus", "Technologie", "Autre"
@@ -6,6 +5,7 @@ const CATEGORIES_VALIDES = [
 
 const CATEGORIE_DEFAUT = "Autre";
 
+// Fonction pour échapper les caractères spéciaux et éviter les injections XSS
 export async function suggererAvecIA(titre) {
   try {
     const response = await fetch("api/ai", {
@@ -28,6 +28,7 @@ Réponds UNIQUEMENT en JSON valide :
       })
     });
 
+    // Traite la réponse de l'IA
     const data = await response.json();
     const raw = data.choices[0].message.content;
     const clean = raw.replace(/```json|```/g, "").trim();

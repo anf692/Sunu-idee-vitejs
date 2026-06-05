@@ -44,7 +44,7 @@ function afficherIdee(idee) {
   murIdees.appendChild(carte); // ajoute la carte dans le mur
 }
 
-
+// Fonction pour afficher toutes les idées
 function afficherTout(idees) {
   murIdees.innerHTML = "";
   idees.forEach((idee) => afficherIdee(idee));
@@ -57,12 +57,15 @@ function afficherTout(idees) {
 form.addEventListener("submit", async function(event) {
   event.preventDefault();
 
+  // Récupère et sanitize les valeurs du formulaire pour éviter les injections XSS
   const titre = sanitize(document.getElementById("Titre").value);
   const categorie = document.getElementById("Categorie").value;
   const description = sanitize(document.getElementById("Description").value);
 
+  // Valide le formulaire avant de soumettrer
   if (!validerFormulaire(titre, categorie, description)) return;
 
+  // Si on est en édition, on modifie l'idée, sinon on en ajoute une nouvelle
   try {
     if (idEnEdition !== null) {
       await modifierIdee(idEnEdition, titre, categorie, description);
@@ -79,16 +82,18 @@ form.addEventListener("submit", async function(event) {
   }
 });
 
-// Bouton IA
+// Bouton IA pour suggérer une catégorie et une description à partir du titre
 document.getElementById("btnSuggerer")
   .addEventListener("click", async function() {
   const titre = document.getElementById("Titre").value;
   if (titre.trim() === "") { alert("Écris un titre !"); return; }
 
+  // Affiche un état de chargement pendant que l'IA génère la suggestion
   const btn = document.getElementById("btnSuggerer");
   btn.textContent = "⏳ L'IA génère...";
   btn.disabled = true;
 
+  // Appelle la fonction de suggestion IA et remplit les champs catégorie et description avec les résultats
   const suggestion = await suggererAvecIA(titre);
   document.getElementById("Categorie").value = suggestion.categorie;
   document.getElementById("Description").value = suggestion.description;
@@ -113,7 +118,7 @@ window.editerIdee = async function(id) {
   }
 }
 
-
+// Fonction pour supprimer une idée avec confirmation
 window.supprimerIdee = async function(id) {
   const confirmation = confirm("Es-tu sûr ?");
   if (!confirmation) return;

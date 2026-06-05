@@ -3,6 +3,7 @@ const CATEGORIES_VALIDES = [
   "Vie de campus", "Technologie", "Autre"
 ];
 
+// Fonction pour valider le formulaire et éviter les injections XSS
 export function validerFormulaire(titre, categorie, description) {
   if (titre.trim().length < 3) {
     alert("Le titre doit contenir au moins 3 caractères !");

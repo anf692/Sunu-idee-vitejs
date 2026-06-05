@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
+// Crée une instance du client Supabase avec les URL et clé d'anonymat
 export const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
 // READ
