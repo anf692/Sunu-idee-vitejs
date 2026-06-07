@@ -8,11 +8,10 @@ const CATEGORIE_DEFAUT = "Autre";
 // Fonction pour échapper les caractères spéciaux et éviter les injections XSS
 export async function suggererAvecIA(titre) {
   try {
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    const response = await fetch("/api/ai", {
       method: "POST",
       headers: { 
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         model: "google/gemma-4-31b-it:freeze-2024-06-01",
